@@ -1,0 +1,75 @@
+<!doctype html>
+<html ng-app="app">
+  <head>
+    <title>NOW Stock prices</title>
+    <link rel="stylesheet" type="text/css" href="lib/bootstrap5/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/toggle.css">
+  </head>
+  <body ng-controller="appCtrl">
+    <div class="container">
+      <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="stocksymbol" ng-model="pincode" ng-change="fetchVaccinationCenter()" placeholder="Pincode">
+        <label for="floatingInput">Pincode</label>
+        <small class="hint">Exp: 250001 - Meerut, 247001 - Saharanpur, 248002 - Dehradun etc.</small>
+      </div>
+      <div class="controls">
+        <div class="form-group" id="control">
+          <label class="switch">
+            <input id="minage18"type="checkbox" ng-model="age18" ng-change="fetchVaccinationCenter()">
+            <span class="slider round"></span>
+          </label>
+          <small>Age {{age18 ? '18+' : '45+'}}</small>
+        </div>
+        <div class="form-group" id="control">
+          <label class="switch">
+            <input id="vaccineType"type="checkbox" ng-model="secondDose" ng-change="fetchVaccinationCenter()">
+            <span class="slider round"></span>
+          </label>
+          <small>{{secondDose ? 'Second dose' : 'First dose'}}</small>
+        </div>
+
+        <div class="form-group">
+          <select class="form-select form-select-sm" ng-model="vaccineType" ng-disabled="!secondDose" id="floatingSelect" aria-label="Floating label select example">
+            <option value="1">Covi-shield</option>
+            <option value="2">Covaxin</option>
+          </select>
+        </div>
+
+
+      </div>
+
+      <div class="status alert alert-success">
+        <strong>{{availableCenters.length}}</strong> eligible centers found for age {{age18 ? '18+' : '45+'}}.
+      </div>
+
+      <div>
+
+      <table ng-if="availableCenters.length > 0" class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Available Centers</th>
+            <!--th scope="col">Age</th-->
+            <th ng-repeat="date in availableDatesFormatted">{{date}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="center in availableCenters">
+            <th scope="row">{{$index + 1}}</th>
+            <td>{{center.name}}</td>
+            <!--td>{{center.sessions[0].min_age_limit}}</td-->
+            <td ng-repeat="date in availableDates" ng-class="(center[date].available_capacity > 0) ? 'text-success' : 'text-danger'">{{center[date].available_capacity || 0}}</td>
+          </tr>
+        </tbody>
+      </table>
+
+
+      </div>
+    </div>
+    <script type="text/javascript" src="lib/angular/angular.min.js"></script>
+    <script type="text/javascript" src="lib/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="lib/bootstrap5/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="app/app.js"></script>
+  </body>
+</html>

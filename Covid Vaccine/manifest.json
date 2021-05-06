@@ -1,0 +1,17 @@
+{
+  "manifest_version": 2,
+
+  "name": "Covid vaccine",
+  "description": "This extension checks for vaccination centers available in specific pincode.",
+  "version": "1.0",
+
+  "browser_action": {
+   "default_icon": "vaccine.png",
+   "default_popup": "popup.html"
+  },
+  "permissions": [
+     "activeTab",
+     "debugger",
+     "storage"
+   ]
+}
